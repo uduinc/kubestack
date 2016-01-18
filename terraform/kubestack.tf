@@ -3,7 +3,7 @@ output "kubernetes-api-server" {
 }
 
 resource "template_file" "etcd" {
-    filename = "etcd.env"
+    template = "${file("${path.module}/etcd.env")}"
     vars {
         cluster_token = "${var.cluster_name}"
         discovery_url = "${var.discovery_url}"
@@ -11,7 +11,7 @@ resource "template_file" "etcd" {
 }
 
 resource "template_file" "kubernetes" {
-    filename = "kubernetes.env"
+    template = "${file("${path.module}/kubernetes.env")}"
     vars {
         api_servers = "http://${var.cluster_name}-kube-apiserver.c.${var.project}.internal:8080"
         etcd_servers = "${join(",", "${formatlist("http://%s:2379", google_compute_instance.etcd.*.network_interface.0.address)}")}"
@@ -22,7 +22,7 @@ resource "template_file" "kubernetes" {
 }
 
 provider "google" {
-    account_file = "${var.account_file}"
+    credentials = "${file("${var.credentials}")}"
     project = "${var.project}"
     region = "${var.region}"
 }

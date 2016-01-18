@@ -1,4 +1,4 @@
-variable "account_file" {
+variable "credentials" {
     default = "/etc/kubestack-account.json"
 }
 
@@ -13,7 +13,7 @@ variable "flannel_network" {
 }
 
 variable "image" {
-    default = "kubestack-0-17-1-v20150606"
+    default = "kubestack-0-17-1-v20160109"
 }
 
 variable "project" {}
